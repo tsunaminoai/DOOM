@@ -38,7 +38,7 @@ pub fn build(b: *std.Build) void {
     // set a preferred release mode, allowing the user to decide how to optimize.
     const optimize = b.standardOptimizeOption(.{});
 
-    buildNativeC(b, target, optimize);
+    // buildNativeC(b, target, optimize);
 
     const lib = b.addStaticLibrary(.{
         .name = "DOOM",
