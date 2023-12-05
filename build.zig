@@ -26,7 +26,7 @@ fn buildNativeC(b: *std.Build, target: anytype, optimize: anytype) void {
 const Languages = enum {
     english,
     french,
-    german,
+    // german,
 };
 
 // Although this function looks imperative, note that its job is to

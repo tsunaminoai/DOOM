@@ -33,5 +33,5 @@ pub const BGCOLOR = 7;
 pub const FGCOLOR = 8;
 
 pub fn main() !void {
-    std.debug.print("{any}", .{Strings});
+    std.debug.print("{s}", .{Strings.D_CDROM});
 }
