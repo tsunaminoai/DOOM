@@ -23,6 +23,12 @@ fn buildNativeC(b: *std.Build, target: anytype, optimize: anytype) void {
     b.installArtifact(native);
 }
 
+const Languages = enum {
+    english,
+    french,
+    german,
+};
+
 // Although this function looks imperative, note that its job is to
 // declaratively construct a build graph that will be executed by an external
 // runner.
@@ -39,6 +45,10 @@ pub fn build(b: *std.Build) void {
     const optimize = b.standardOptimizeOption(.{});
 
     // buildNativeC(b, target, optimize);
+    const options = b.addOptions();
+    const language = b.option(Languages, "language", "Language to compile the executable with.") orelse .english;
+
+    options.addOption(Languages, "language", language);
 
     const lib = b.addStaticLibrary(.{
         .name = "DOOM",
@@ -60,6 +70,8 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
+    exe.addOptions("config", options);
+
     exe.linkLibrary(lib);
     // This declares intent for the executable to be installed into the
     // standard location when the user invokes the "install" step (the default

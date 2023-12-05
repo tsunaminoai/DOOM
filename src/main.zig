@@ -1,5 +1,7 @@
 const std = @import("std");
 const DOOM = @import("DOOM");
+const config = @import("config");
+const Strings = @import("strings.zig").Strings(config.language);
 
 //todo: "dstrings.h"
 //todo: "sounds.h"
@@ -30,4 +32,6 @@ pub var wadfiles: [MAXWADFILES]*u8 = undefined;
 pub const BGCOLOR = 7;
 pub const FGCOLOR = 8;
 
-pub fn main() !void {}
+pub fn main() !void {
+    std.debug.print("{any}", .{Strings});
+}
