@@ -1,1 +1,3 @@
-pub const strings = .{};
+pub const strings = .{
+    .key = "Oui",
+};

@@ -50,7 +50,10 @@ pub fn build(b: *std.Build) void {
 
     options.addOption(Languages, "language", language);
 
-    const lib = b.addStaticLibrary(.{
+    const doomMod = b.addModule("DOOM", .{
+        .source_file = .{ .path = "src/root.zig" },
+    });
+    const libDoom = b.addStaticLibrary(std.build.StaticLibraryOptions{
         .name = "DOOM",
         // In this case the main source file is merely a path, however, in more
         // complicated build scripts, this could be a generated file.
@@ -58,11 +61,12 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
+    libDoom.addModule("DOOM", doomMod);
 
     // This declares intent for the library to be installed into the standard
     // location when the user invokes the "install" step (the default step when
     // running `zig build`).
-    b.installArtifact(lib);
+    b.installArtifact(libDoom);
 
     const exe = b.addExecutable(.{
         .name = "DOOM",
@@ -72,7 +76,9 @@ pub fn build(b: *std.Build) void {
     });
     exe.addOptions("config", options);
 
-    exe.linkLibrary(lib);
+    exe.addModule("DOOM", doomMod);
+    exe.linkLibrary(libDoom);
+
     // This declares intent for the executable to be installed into the
     // standard location when the user invokes the "install" step (the default
     // step when running `zig build`).
