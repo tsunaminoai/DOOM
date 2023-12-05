@@ -172,3 +172,50 @@ pub const SoundFXTag = enum {
     radio,
     NUMSFX,
 };
+
+
+/// Initializes sound stuff, including volume
+/// Sets channels, SFX and music volume,
+///  allocates channel buffer, sets S_sfx lookup.
+pub fn init(sfxVolume: i16, musicVolume: i16) void{}
+
+
+
+/// Per level startup code.
+/// Kills playing sounds at start of level,
+///  determines music if any, changes music.
+pub fn start()void{}
+
+/// Start sound for thing at <origin>
+///  using <sound_id> from sounds.h
+pub fn startSound(origin: *void, soundId: i16) void{}
+
+
+/// Will start a sound at a given volume.
+pub fn startSoundAtVolume(origin: *void, soundId: i16, volume: i16) void{}
+
+/// Stop sound for thing at <origin>
+void S_StopSound(void* origin);
+
+
+/// Start music using <music_id> from sounds.h
+void S_StartMusic(int music_id);
+
+/// Start music using <music_id> from sounds.h,
+///  and set whether looping
+pub fn changeMusic(musicId: i16, looping: i16) void{}
+
+
+/// Stops the music fer sure.
+pub fn stopMusic()void{}
+
+/// Stop and resume music, during game PAUSE.
+pub fn pauseMusic()void{}
+pub fn resumeMusic()void{}
+
+
+/// Updates music & sounds
+pub fn updateSounds(listener: *void) void{}
+pub fn setMusicVolume(volume:i16) void{}
+pub fn setSFXVolume(volume:i16) void{}
+
