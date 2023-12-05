@@ -12,3 +12,4 @@ pub usingnamespace @import("sprites.zig");
 pub usingnamespace @import("stat.zig");
 pub usingnamespace @import("tables.zig");
 pub usingnamespace @import("think.zig");
+pub usingnamespace @import("ticks.zig");
