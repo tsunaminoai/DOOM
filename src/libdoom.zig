@@ -1,0 +1,14 @@
+const std = @import("std");
+pub usingnamespace @import("types.zig");
+pub usingnamespace @import("data.zig");
+pub usingnamespace @import("definitions.zig");
+pub usingnamespace @import("event.zig");
+pub usingnamespace @import("fixed.zig");
+pub usingnamespace @import("info.zig");
+pub usingnamespace @import("items.zig");
+pub usingnamespace @import("mobj.zig");
+pub usingnamespace @import("player.zig");
+pub usingnamespace @import("sprites.zig");
+pub usingnamespace @import("stat.zig");
+pub usingnamespace @import("tables.zig");
+pub usingnamespace @import("think.zig");

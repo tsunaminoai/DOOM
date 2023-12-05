@@ -1,14 +1,17 @@
+/// Event handling.
 const std = @import("std");
+const DOOM = @import("libdoom.zig");
 
 pub const MAXEVENTS = 64;
 
+/// Input event types.
 pub const EventType = enum {
     keydown,
     keyup,
     mouse,
     joystick,
 };
-
+/// Event structure.
 pub const Event = struct {
     eType: EventType,
     data1: u32, // keys / mouse/joystick buttons
@@ -29,6 +32,7 @@ pub const GameAction = enum {
     screenShot,
 };
 
+/// Button/action code definitions.
 pub const ButtonCode = enum(u8) {
     attack = 1,
     use = 2,
@@ -42,3 +46,10 @@ pub const ButtonCode = enum(u8) {
     saveMask = (4 + 8 + 16),
     saveShift = 2,
 };
+
+/// GLOBAL VARIABLES
+var events: [DOOM.MAXEVENTS]Event = undefined;
+var eventHead: i16 = 0;
+var eventTail: i16 = 0;
+
+var gameAction: GameAction = undefined;

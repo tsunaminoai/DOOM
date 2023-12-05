@@ -1,10 +1,29 @@
+///	Lookup tables.
+///	Do not try to look them up :-).
+///	In the order of appearance:
+///
+///	int finetangent[4096]	- Tangens LUT.
+///	 Should work with BAM fairly well (12 of 16bit,
+///      effectively, by shifting).
+///
+///	int finesine[10240]		- Sine lookup.
+///	 Guess what, serves as cosine, too.
+///	 Remarkable thing is, how to use BAMs with this?
+///
+///	int tantoangle[2049]	- ArcTan LUT,
+///	  maps tan(angle) to angle fast. Gotta search.
+///
+///-----------------------------------------------------------------------------
 const std = @import("std");
 const fixed = @import("fixed.zig");
 
 pub const FineAngles = 8192;
 pub const FineMask = FineAngles - 1;
+
+// 0x100000000 to 0x2000
 pub const AngleToFineShift = 19;
 
+// Binary Angle Measument, BAM.
 pub const Angle45 = 0x20000000;
 pub const Angle90 = 0x40000000;
 pub const Angle180 = 0x80000000;
@@ -14,8 +33,13 @@ pub const SlopeRange = 2048;
 pub const SlopeBits = 11;
 pub const DBits = fixed.FractionalBits - SlopeBits;
 
+// Effective size is 2049;
+// The +1 size is to handle the case when x==y
+//  without additional checking.
 pub const Angle = u32;
 
+// Utility function,
+//  called by R_PointToAngle.
 pub fn slopeDivide(numerator: u32, denominator: u32) u32 {
     var answer: u32 = 0;
     if (denominator < 512) return SlopeRange;

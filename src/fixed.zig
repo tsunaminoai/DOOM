@@ -1,5 +1,9 @@
+///	Fixed point arithemtics, implementation.
 const std = @import("std");
 
+//
+// Fixed point, 32bit as 16.16.
+//
 pub const FractionalBits = 16;
 pub const FractionalUnit = (1 << FractionalBits);
 
