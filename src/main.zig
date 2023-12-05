@@ -4,7 +4,6 @@ const config = @import("config");
 const Strings = @import("strings.zig").Strings(config.language);
 const Sounds = @import("sounds.zig");
 
-//todo: "z_zone.h"
 //todo: "w_wad.h"
 //todo: "s_sound.h"
 //todo: "v_video.h"
