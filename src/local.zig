@@ -3,13 +3,19 @@
 const std = @import("std");
 const DOOM = @import("libdoom.zig");
 
-// #include "r_main.h"
-// #include "r_bsp.h"
-// #include "r_segs.h"
-// #include "r_plane.h"
-// #include "r_data.h"
-// #include "r_things.h"
-// #include "r_draw.h"
+pub usingnamespace @import("renderer/bsp.zig");
+pub usingnamespace @import("renderer/data.zig");
+pub usingnamespace @import("renderer/draw.zig");
+pub usingnamespace @import("renderer/plane.zig");
+pub usingnamespace @import("renderer/segments.zig");
+pub usingnamespace @import("renderer/things.zig");
+
+//todo: #include "r_bsp.h"
+//todo: #include "r_segs.h"
+//todo: #include "r_plane.h"
+//todo: #include "r_data.h"
+//todo: #include "r_things.h"
+//todo: #include "r_draw.h"
 
 viewCos: DOOM.Fixed,
 viewSin: DOOM.Fixed,
