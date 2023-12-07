@@ -19,8 +19,7 @@ pub usingnamespace @import("video.zig");
 pub usingnamespace @import("finale.zig");
 pub usingnamespace @import("wipe.zig");
 pub usingnamespace @import("misc.zig");
-//todo: "m_misc.h"
-//todo: "m_menu.h"
+pub usingnamespace @import("menu.zig");
 //todo: "i_system.h"
 //todo: "i_sound.h"
 //todo: "i_video.h"
