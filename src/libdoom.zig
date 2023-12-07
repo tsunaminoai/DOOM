@@ -22,7 +22,6 @@ pub usingnamespace @import("video.zig");
 pub usingnamespace @import("wad.zig");
 pub usingnamespace @import("wipe.zig");
 
-//todo: "i_video.h"
 //todo: "g_game.h"
 //todo: "hu_stuff.h"
 //todo: "wi_stuff.h"

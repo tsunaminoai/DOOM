@@ -104,3 +104,29 @@ pub fn markRect(x: i16, y: i16, width: i16, height: i16) void {
     _ = y;
     _ = x;
 }
+
+/// Called by D_DoomMain,
+/// determines the hardware configuration
+/// and sets up the video mode
+pub fn initGraphics() void {}
+
+pub fn shutDownGraphics() void {}
+
+// Takes full 8 bit values.
+pub fn setPalette(pallet: *u8) void {
+    _ = pallet;
+}
+
+pub fn updateNoBlit() void {}
+pub fn fishishUpdate() void {}
+
+// Wait for vertical retrace or pause a bit.
+pub fn waitVBL(count: i16) void {
+    _ = count;
+}
+
+pub fn readScreen(screen: *u8) void {
+    _ = screen;
+}
+pub fn beginRead() void {}
+pub fn endRead() void {}
