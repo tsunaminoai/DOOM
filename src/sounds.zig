@@ -234,3 +234,80 @@ pub fn setMusicVolume(volume: i16) void {
 pub fn setSFXVolume(volume: i16) void {
     _ = volume;
 }
+
+// UNIX hack, to be removed.
+// #ifdef SNDSERV
+// #include <stdio.h>
+// extern FILE* sndserver;
+// extern char* sndserver_filename;
+// #endif
+
+
+// Init at program start...
+pub fn initSound() void {}
+
+// ... update sound buffer and audio device at runtime...
+
+pub fn updateSound() void {}
+pub fn submitSound() void {}
+
+// ... shut down and relase at program termination.
+pub fn shutDownSound() void {}
+
+
+
+///   SFX I/O
+
+///  Initialize channels?
+pub fn setChannels()void{};
+
+///  Get raw data lump index for sound descriptor.
+pub fn getSFXLumpNumber(sfxinfo: *SFXInfo) i16 {}
+
+///  Starts a sound in a particular sound channel.
+pub fn startSoundChannel(id: i16, volume: i16, sep: i16, pitch: i16, priority: i16,) i16 {}
+
+///  Stops a sound channel.
+pub fn stopSoundChannel(handle: i16)void {}
+
+///  Called by S_*() functions
+///   to see if a channel is still playing.
+///  Returns 0 if no longer playing, 1 if playing.
+pub fn isSoundPlaying(handle: i16) bool {
+
+}
+
+///  Updates the volume, separation,
+///   and pitch of a sound channel.
+pub fn updateSoundParams(handle: i16, volume: i16, sep: i16, pitch: i16,) void {
+
+}
+
+
+///   MUSIC I/O
+pub fn initMusic()void{}
+pub fn shutDownMusic()void{}
+
+///  Volume.
+pub fn setMusicVolume(volume: i16) void {}
+
+///  PAUSE game handling.
+pub fn pauseSong(handle: i16) void{}
+pub fn resumeSong(handle: i16) void{}
+
+///  Registers a song handle to song data.
+pub fn registerSong(data: *u8) i16 {}
+
+///  Called by anything that wishes to start music.
+///   plays a song, and when the song is done,
+///   starts playing it again in an endless loop.
+///  Horrible thing to do, considering.
+pub fn playSong(handle: i16, looping: bool) void{}
+
+///  Stops a song over 3 seconds.
+pub fn stopSong(handle: i16) void {}
+
+///  See above (register), then think backwards
+pub fn unRegisterSong(handle: i16) void{}
+
+
