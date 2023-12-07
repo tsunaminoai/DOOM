@@ -1,5 +1,6 @@
 const std = @import("std");
 pub usingnamespace @import("data.zig");
+pub usingnamespace @import("automap.zig");
 pub usingnamespace @import("definitions.zig");
 pub usingnamespace @import("event.zig");
 pub usingnamespace @import("finale.zig");
@@ -26,6 +27,5 @@ pub usingnamespace @import("video.zig");
 pub usingnamespace @import("wad.zig");
 pub usingnamespace @import("wipe.zig");
 
-//todo: "am_map.h"
 //todo: "p_setup.h"
 //todo: "r_local.h"
