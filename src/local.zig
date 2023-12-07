@@ -2,7 +2,7 @@
 ///	All the rendering/drawing stuff is here.
 const std = @import("std");
 const DOOM = @import("libdoom.zig");
-const Renderer = @import("root.zig").Renderer;
+const Renderer = @import("renderer/renderer.zig");
 
 //todo: #include "r_segs.h"
 //todo: #include "r_plane.h"

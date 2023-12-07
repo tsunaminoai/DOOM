@@ -1,4 +1,7 @@
+const std = @import("std");
+
 pub usingnamespace @import("bsp.zig");
+pub usingnamespace @import("definitions.zig");
 pub usingnamespace @import("data.zig");
 pub usingnamespace @import("draw.zig");
 pub usingnamespace @import("plane.zig");
