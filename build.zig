@@ -125,6 +125,16 @@ pub fn build(b: *std.Build) void {
     const test_step = b.step("test", "Run unit tests");
     test_step.dependOn(&run_lib_unit_tests.step);
     test_step.dependOn(&run_exe_unit_tests.step);
+
+    const docs = lib.getEmittedDocs();
+    const install_docs = b.addInstallDirectory(.{
+        .source_dir = docs,
+        .install_subdir = "docs",
+        .install_dir = .prefix,
+    });
+
+    const docs_step = b.step("docs", "Copy documentation artifacts to prefix path");
+    docs_step.dependOn(&install_docs.step);
 }
 
 const Cfiles = &[_][]const u8{
