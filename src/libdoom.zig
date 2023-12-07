@@ -5,6 +5,7 @@ pub usingnamespace @import("event.zig");
 pub usingnamespace @import("finale.zig");
 pub usingnamespace @import("fixed.zig");
 pub usingnamespace @import("game.zig");
+pub usingnamespace @import("hud.zig");
 pub usingnamespace @import("info.zig");
 pub usingnamespace @import("items.zig");
 pub usingnamespace @import("menu.zig");
@@ -23,7 +24,6 @@ pub usingnamespace @import("video.zig");
 pub usingnamespace @import("wad.zig");
 pub usingnamespace @import("wipe.zig");
 
-//todo: "hu_stuff.h"
 //todo: "wi_stuff.h"
 //todo: "st_stuff.h"
 //todo: "am_map.h"
