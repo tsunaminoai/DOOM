@@ -2,13 +2,7 @@
 ///	All the rendering/drawing stuff is here.
 const std = @import("std");
 const DOOM = @import("libdoom.zig");
-
-pub usingnamespace @import("renderer/bsp.zig");
-pub usingnamespace @import("renderer/data.zig");
-pub usingnamespace @import("renderer/draw.zig");
-pub usingnamespace @import("renderer/plane.zig");
-pub usingnamespace @import("renderer/segments.zig");
-pub usingnamespace @import("renderer/things.zig");
+const Renderer = @import("root.zig").Renderer;
 
 //todo: #include "r_segs.h"
 //todo: #include "r_plane.h"
@@ -34,12 +28,12 @@ validCount: i16,
 lineCount: i16,
 loopCount: i16,
 
-scaleLight: [LightLevels][MaxLightScale]*DOOM.LightTable,
-scaleLightFixed: [MaxLightScale]*DOOM.LightTable,
-zLight: [LightLevels][MaxLightZ]*DOOM.LightTable,
+scaleLight: [LightLevels][MaxLightScale]*Renderer.LightTable,
+scaleLightFixed: [MaxLightScale]*Renderer.LightTable,
+zLight: [LightLevels][MaxLightZ]*Renderer.LightTable,
 
 extraLight: i16,
-fixedColorMap: *DOOM.LightTable,
+fixedColorMap: *Renderer.LightTable,
 
 /// Blocky/low detail mode.
 ///B remove this?
