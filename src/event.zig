@@ -1,6 +1,6 @@
 /// Event handling.
 const std = @import("std");
-const DOOM = @import("libdoom.zig");
+const Defs = @import("definitions.zig");
 
 pub const MAXEVENTS = 64;
 
@@ -48,7 +48,7 @@ pub const ButtonCode = enum(u8) {
 };
 
 /// GLOBAL VARIABLES
-var events: [DOOM.MAXEVENTS]Event = undefined;
+var events: [MAXEVENTS]Event = undefined;
 var eventHead: i16 = 0;
 var eventTail: i16 = 0;
 

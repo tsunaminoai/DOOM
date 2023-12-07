@@ -2,17 +2,18 @@
 ///	Does the face/direction indicator animatin.
 ///	Does palette indicators as well (red pain/berserk, bright pickup)
 const std = @import("std");
-const DOOM = @import("libdoom.zig");
+const Defs = @import("definitions.zig");
+const Event = @import("event.zig");
 
 /// Size of statusbar.
 /// Now sensitive for scaling.
-pub const STATUSBAR_HEIGHT = 32 * DOOM.SCREEN_MUL;
-pub const STATUSBAR_WIDTH = DOOM.SCREENWIDTH;
-pub const STATUSBAR_Y = DOOM.SCREENHEIGHT - STATUSBAR_HEIGHT;
+pub const STATUSBAR_HEIGHT = 32 * Defs.SCREEN_MUL;
+pub const STATUSBAR_WIDTH = Defs.SCREENWIDTH;
+pub const STATUSBAR_Y = Defs.SCREENHEIGHT - STATUSBAR_HEIGHT;
 
 /// STATUS BAR
 /// Called by main loop.
-pub fn responder(event: *DOOM.Event) bool {
+pub fn responder(event: *Event.Event) bool {
     _ = event;
 }
 

@@ -1,7 +1,9 @@
 ///	Refresh (R_*) module, global header.
 ///	All the rendering/drawing stuff is here.
 const std = @import("std");
-const DOOM = @import("libdoom.zig");
+const Fixed = @import("fixed.zig");
+const Data = @import("data.zig");
+const Player = @import("player.zig");
 const Renderer = @import("renderer/renderer.zig");
 
 //todo: #include "r_segs.h"
@@ -10,8 +12,8 @@ const Renderer = @import("renderer/renderer.zig");
 //todo: #include "r_things.h"
 //todo: #include "r_draw.h"
 
-viewCos: DOOM.Fixed,
-viewSin: DOOM.Fixed,
+viewCos: Fixed.Fixed,
+viewSin: Fixed.Fixed,
 viewWidth: i16,
 viewHeight: i16,
 viewWindowX: i16,
@@ -20,9 +22,9 @@ viewWindowY: i16,
 centerX: i16,
 centerY: i16,
 
-centerXFrac: DOOM.Fixed,
-centerYFrac: DOOM.Fixed,
-projection: DOOM.Fixed,
+centerXFrac: Fixed.Fixed,
+centerYFrac: Fixed.Fixed,
+projection: Fixed.Fixed,
 
 validCount: i16,
 lineCount: i16,
@@ -63,9 +65,9 @@ pub const NumColorMaps = 32;
 
 /// Utility Functions
 pub fn pointOnSide(
-    x: DOOM.Fixed,
-    y: DOOM.Fixed,
-    node: *DOOM.MapNode,
+    x: Fixed.Fixed,
+    y: Fixed.Fixed,
+    node: *Data.MapNode,
 ) i16 {
     _ = node;
     _ = y;
@@ -73,9 +75,9 @@ pub fn pointOnSide(
 }
 
 pub fn pointOnSegSide(
-    x: DOOM.Fixed,
-    y: DOOM.Fixed,
-    line: *DOOM.MapSegment,
+    x: Fixed.Fixed,
+    y: Fixed.Fixed,
+    line: *Data.MapSegment,
 ) i16 {
     _ = line;
     _ = y;
@@ -83,19 +85,19 @@ pub fn pointOnSegSide(
 }
 
 pub fn pointToAngle(
-    x: DOOM.Fixed,
-    y: DOOM.Fixed,
-) DOOM.Fixed {
+    x: Fixed.Fixed,
+    y: Fixed.Fixed,
+) Fixed.Fixed {
     _ = y;
     _ = x;
 }
 
 pub fn pointToAngle2(
-    x1: DOOM.Fixed,
-    y1: DOOM.Fixed,
-    x2: DOOM.Fixed,
-    y2: DOOM.Fixed,
-) DOOM.Fixed {
+    x1: Fixed.Fixed,
+    y1: Fixed.Fixed,
+    x2: Fixed.Fixed,
+    y2: Fixed.Fixed,
+) Fixed.Fixed {
     _ = y2;
     _ = x2;
     _ = y1;
@@ -103,32 +105,32 @@ pub fn pointToAngle2(
 }
 
 pub fn pointToDist(
-    x: DOOM.Fixed,
-    y: DOOM.Fixed,
-) DOOM.Fixed {
+    x: Fixed.Fixed,
+    y: Fixed.Fixed,
+) Fixed.Fixed {
     _ = y;
     _ = x;
 }
 
 pub fn scaleFromGlobalAngle(
-    visAngle: DOOM.Angle,
-) DOOM.Fixed {
+    visAngle: Fixed.Angle,
+) Fixed.Fixed {
     _ = visAngle;
 }
 
 pub fn pointInSubsector(
-    x: DOOM.Fixed,
-    y: DOOM.Fixed,
-) *DOOM.SubSector {
+    x: Fixed.Fixed,
+    y: Fixed.Fixed,
+) *Fixed.SubSector {
     _ = y;
     _ = x;
 }
 
 pub fn addPointToBox(
-    x: DOOM.Fixed,
-    y: DOOM.Fixed,
-    box: *DOOM.Fixed,
-) DOOM.Fixed {
+    x: Fixed.Fixed,
+    y: Fixed.Fixed,
+    box: *Fixed.Fixed,
+) Fixed.Fixed {
     _ = box;
     _ = y;
     _ = x;
@@ -136,7 +138,7 @@ pub fn addPointToBox(
 
 /// REFRESH - the actual rendering functions.
 /// Called by G_Drawer.
-pub fn renderPlayerView(player: *DOOM.Player) void {
+pub fn renderPlayerView(player: *Player.Player) void {
     _ = player;
 }
 

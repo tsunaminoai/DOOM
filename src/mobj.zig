@@ -62,7 +62,12 @@
 /// Any questions?
 ///
 const std = @import("std");
-const DOOM = @import("libdoom.zig");
+const Defs = @import("definitions.zig");
+const Think = @import("think.zig");
+const Fixed = @import("fixed.zig");
+const Data = @import("data.zig");
+const Sprite = @import("sprite.zig");
+const Player = @import("player.zig");
 
 /// Misc. mobj flags
 pub const MobjFlag = enum(u16) {
@@ -154,12 +159,12 @@ pub const MobjFlag = enum(u16) {
 /// Map Object definition.
 pub const Mobj = struct {
     // List: thinker links.
-    thinker: DOOM.Thinker,
+    thinker: Think.Thinker,
 
     // Info for drawing: position.
-    x: DOOM.Fixed,
-    y: DOOM.Fixed,
-    z: DOOM.Fixed,
+    x: Fixed.Fixed,
+    y: Fixed.Fixed,
+    z: Fixed.Fixed,
 
     // More list: links in sector (if needed)
     next: ?*Mobj,
@@ -167,8 +172,8 @@ pub const Mobj = struct {
 
     //More drawing info: to determine current sprite.
 
-    angle: DOOM.Angle, // orientation
-    sprite: DOOM.SpriteNum, // used to find patch_t and flip value
+    angle: Fixed.Angle, // orientation
+    sprite: Sprite.SpriteNum, // used to find patch_t and flip value
     frame: u16, // might be ORed with FF_FULLBRIGHT
 
     // Interaction info, by BLOCKMAP.
@@ -177,29 +182,29 @@ pub const Mobj = struct {
     prevBlock: ?*Mobj,
 
     //     struct subsector_s*	subsector;
-    subsector: ?*DOOM.SubSector,
+    subsector: ?*Data.SubSector,
 
     // The closest interval over all contacted Sectors.
-    floorZ: DOOM.Fixed,
-    ceilingZ: DOOM.Fixed,
+    floorZ: Fixed.Fixed,
+    ceilingZ: Fixed.Fixed,
 
     // For movement checking.
-    radius: DOOM.Fixed,
-    height: DOOM.Fixed,
+    radius: Fixed.Fixed,
+    height: Fixed.Fixed,
     // Momentums, used to update position.
 
-    momentumX: DOOM.Fixed,
-    momentumY: DOOM.Fixed,
-    momentumZ: DOOM.Fixed,
+    momentumX: Fixed.Fixed,
+    momentumY: Fixed.Fixed,
+    momentumZ: Fixed.Fixed,
 
     // If == validcount, already checked.
     validCount: i16,
 
-    mType: DOOM.MobjType,
-    info: ?*DOOM.MobjInfo, // &mobjinfo[mobj->type]
+    mType: Data.MobjType,
+    info: ?*Data.MobjInfo, // &mobjinfo[mobj->type]
 
     tics: i16, // state tic counter
-    state: DOOM.State,
+    state: Data.State,
     flags: i16,
     health: i16,
 
@@ -221,13 +226,13 @@ pub const Mobj = struct {
 
     // Additional info record for player avatars only.
     // Only valid if type == MT_PLAYER
-    player: ?*DOOM.Player,
+    player: ?*Player.Player,
 
     // Player number last looked for.
     lastLook: i16,
 
     // For nightmare respawn.
-    spawnPoint: DOOM.MapThing,
+    spawnPoint: Data.MapThing,
 
     // Thing being chased/attacked for tracers.
     tracer: ?*Mobj,

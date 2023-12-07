@@ -2,7 +2,7 @@
 //  most of the data is loaded into different structures at run time
 //  some internal structures shared by many modules are here
 const std = @import("std");
-const defs = @import("definitions.zig");
+const Defs = @import("data.zig");
 
 // Map level types.
 // The following data structures define the persistent format

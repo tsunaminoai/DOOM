@@ -5,7 +5,9 @@
 ///    this header file.
 ///   In practice, things are a bit messy.
 const std = @import("std");
-const DOOM = @import("libdoom.zig");
+const Data = @import("data.zig");
+const Defs = @import("definitions.zig");
+const Player = @import("player.zig");
 
 /// Command line parameters.
 pub var noMonsters: bool = false; // checkparm of -nomonsters
@@ -16,20 +18,20 @@ pub var devParm: bool = false; // DEBUG: launched with -devparm
 /// Game Mode - identify IWAD as shareware, retail etc.
 // extern GameMode_t	gamemode;
 // extern GameMission_t	gamemission;
-pub var gameMode: DOOM.GameMode = undefined;
-pub var gameMission: DOOM.GameMission = undefined;
+pub var gameMode: Defs.GameMode = undefined;
+pub var gameMission: Defs.GameMission = undefined;
 
 /// Set if homebrew PWAD stuff has been added.
 // extern  boolean	modifiedgame;
 pub var modifiedGame: bool = false;
 
 /// Language.
-pub var language: DOOM.Language = undefined;
+pub var language: Defs.Language = undefined;
 
 // Selected skill type, map etc.
 
 /// Defaults for menu, methinks.
-pub var startSkill: DOOM.Skill = undefined;
+pub var startSkill: Defs.Skill = undefined;
 pub var startEpisode: i16 = 0;
 pub var startMap: i16 = 0;
 
@@ -39,7 +41,7 @@ pub var autoStart: bool = false;
 // extern  skill_t         gameskill;
 // extern  int		gameepisode;
 // extern  int		gamemap;
-pub var gameSkill: DOOM.Skill = undefined;
+pub var gameSkill: Defs.Skill = undefined;
 pub var gameEpisode: i16 = 0;
 pub var gameMap: i16 = 0;
 
@@ -127,7 +129,7 @@ pub var demoRecording: bool = false;
 // Quit after playing a demo from cmdline.
 pub var singleDemo: bool = false;
 
-pub var gameState: DOOM.GameState = undefined;
+pub var gameState: Defs.GameState = undefined;
 
 /// Internal parameters, fixed.
 /// These are set by the engine, and not changed
@@ -136,28 +138,28 @@ pub var gameState: DOOM.GameState = undefined;
 pub var gameTick: i16 = 0;
 
 /// Bookkeeping on players - state.
-pub var players: [DOOM.MAXPLAYERS]DOOM.Player = undefined;
+pub var players: [Defs.MAXPLAYERS]Player.Player = undefined;
 
 /// Alive? Disconnected?
-pub var playerInGame: [DOOM.MAXPLAYERS]bool = undefined;
+pub var playerInGame: [Defs.MAXPLAYERS]bool = undefined;
 
 /// Player spawn spots for deathmatch.
 pub const MAX_DM_STARTS = 10;
 // extern  mapthing_t      deathmatchstarts[MAX_DM_STARTS];
 // extern  mapthing_t*	deathmatch_p;
-pub var deathMatchStarts: [MAX_DM_STARTS]DOOM.MapThing = undefined;
-pub var deathMatch: ?*DOOM.MapThing = undefined;
+pub var deathMatchStarts: [MAX_DM_STARTS]Data.MapThing = undefined;
+pub var deathMatch: ?*Data.MapThing = undefined;
 
 /// Player spawn spots.
-pub var playerStarts: [DOOM.MAXPLAYERS]DOOM.MapThing = undefined;
+pub var playerStarts: [Defs.MAXPLAYERS]Data.MapThing = undefined;
 
 /// Intermission stats.
 /// Parameters for world map / intermission.
-pub var WebMatchInfo: DOOM.WebStart = undefined;
+pub var WebMatchInfo: Player.WebStart = undefined;
 
 /// LUT of ammunition limits for each kind.
 /// This doubles with BackPack powerup item.
-pub var maxAmmo: [@intFromEnum(DOOM.AmmoType.NumAmmo)]i16 = undefined;
+pub var maxAmmo: [@intFromEnum(Defs.AmmoType.NumAmmo)]i16 = undefined;
 
 /// Internal parameters, used for engine.
 /// File handling stuff.
@@ -170,7 +172,7 @@ pub var preCache: bool = false;
 
 /// wipegamestate can be set to -1
 ///  to force a wipe on the next draw
-pub var wipeGameState: DOOM.GameState = undefined;
+pub var wipeGameState: Defs.GameState = undefined;
 
 pub var mouseSensitivity: i16 = 0;
 /// debug flag to cancel adaptiveness

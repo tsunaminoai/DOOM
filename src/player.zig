@@ -1,5 +1,9 @@
 const std = @import("std");
-const DOOM = @import("libdoom.zig");
+const Mobj = @import("mobj.zig");
+const Ticks = @import("ticks.zig");
+const Defs = @import("definitions.zig");
+const Fixed = @import("fixed.zig");
+const Sprite = @import("../sprite.zig");
 
 /// Player states.
 pub const PlayerState = enum {
@@ -26,24 +30,24 @@ pub const Cheat = enum(u8) {
 
 /// Extended player object info
 pub const Player = struct {
-    mo: ?*DOOM.Mobj,
+    mo: ?*Mobj.Mobj,
     playerState: PlayerState,
-    cmd: DOOM.TickCommand,
+    cmd: Ticks.TickCommand,
 
     // Determine POV,
     //  including viewpoint bobbing during movement.
 
     // Focal origin above r.z
-    viewZ: DOOM.Fixed,
+    viewZ: Fixed.Fixed,
 
     // Base height above floor for viewz.
-    viewHeight: DOOM.Fixed,
+    viewHeight: Fixed.Fixed,
 
     // Bob/squat speed.
-    deltaViewHeight: DOOM.Fixed,
+    deltaViewHeight: Fixed.Fixed,
 
     //bounded/scaled total momentum.
-    bob: DOOM.Fixed,
+    bob: Fixed.Fixed,
 
     // This is only used between levels,
     // mo->health is used during levels.
@@ -53,20 +57,20 @@ pub const Player = struct {
     armorType: i16,
 
     // Power ups. invinc and invis are tic counters.
-    powers: [@intFromEnum(DOOM.PowerType.NumPowers)]i16,
-    cards: [@intFromEnum(DOOM.Card.NumCards)]bool,
+    powers: [@intFromEnum(Defs.PowerType.NumPowers)]i16,
+    cards: [@intFromEnum(Defs.Card.NumCards)]bool,
     backpack: bool,
 
     // Frags, kills of other players.
-    frags: [DOOM.MAXPLAYERS]i16,
-    readyWeapon: DOOM.WeaponType,
+    frags: [Defs.MAXPLAYERS]i16,
+    readyWeapon: Defs.WeaponType,
 
     // Is wp_nochange if not changing.
-    pendingWeapon: DOOM.WeaponType,
+    pendingWeapon: Defs.WeaponType,
 
-    weaponOwned: [@intFromEnum(DOOM.WeaponType.NumWeapons)]bool,
-    ammo: [@intFromEnum(DOOM.AmmoType.NumAmmo)]i16,
-    maxAmmo: [@intFromEnum(DOOM.AmmoType.NumAmmo)]i16,
+    weaponOwned: [@intFromEnum(Defs.WeaponType.NumWeapons)]bool,
+    ammo: [@intFromEnum(Defs.AmmoType.NumAmmo)]i16,
+    maxAmmo: [@intFromEnum(Defs.AmmoType.NumAmmo)]i16,
 
     // True if button down last tic.
     attckDown: i16,
@@ -92,7 +96,7 @@ pub const Player = struct {
     bonusCount: i16,
 
     // Who did damage (NULL for floors/ceilings).
-    attacker: ?*DOOM.Mobj,
+    attacker: ?*Mobj.Mobj,
 
     // So gun flashes light up areas.
     extraLight: i16,
@@ -106,7 +110,7 @@ pub const Player = struct {
     colorMap: i16,
 
     // Overlay view sprites (gun, etc).
-    sprites: [@intFromEnum(DOOM.SpriteNum.NumSprites)]DOOM.SpriteDef,
+    sprites: [@intFromEnum(Sprite.SpriteNum.NumSprites)]Sprite.SpriteDef,
 
     // True if secret level has been done.
     didSecret: bool,
@@ -166,5 +170,5 @@ pub const WebStart = struct {
     // index of this player in game
     playerNumber: i16,
 
-    player: [DOOM.MAXPLAYERS]WebPlayer,
+    player: [Defs.MAXPLAYERS]WebPlayer,
 };

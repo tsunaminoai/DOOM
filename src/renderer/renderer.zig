@@ -1,9 +1,9 @@
 const std = @import("std");
 
-pub usingnamespace @import("bsp.zig");
-pub usingnamespace @import("definitions.zig");
-pub usingnamespace @import("data.zig");
-pub usingnamespace @import("draw.zig");
-pub usingnamespace @import("plane.zig");
-pub usingnamespace @import("segments.zig");
-pub usingnamespace @import("things.zig");
+pub const BSP = @import("bsp.zig");
+pub const RenderDefs = @import("definitions.zig");
+pub const Data = @import("data.zig");
+pub const Draw = @import("draw.zig");
+pub const Plane = @import("plane.zig");
+pub const Segment = @import("segments.zig");
+pub const Thing = @import("things.zig");

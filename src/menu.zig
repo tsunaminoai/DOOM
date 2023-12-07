@@ -1,14 +1,14 @@
 /// MENUS
 ///   Menu widget stuff, episode selection and such.
 const std = @import("std");
-const DOOM = @import("libdoom.zig");
+const Event = @import("event.zig");
 
 /// Called by main loop,
 /// saves config file and calls I_Quit when user exits.
 /// Even when the menu is not displayed,
 /// this can resize the view and change game parameters.
 /// Does all the real work of the menu interaction.
-pub fn responder(event: *DOOM.Event) bool {
+pub fn responder(event: *Event.Event) bool {
     _ = event;
 }
 

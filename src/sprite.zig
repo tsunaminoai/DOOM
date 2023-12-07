@@ -1,8 +1,9 @@
 ///  Sprite animation.
 const std = @import("std");
-const fixed = @import("fixed.zig");
-const tables = @import("tables.zig");
-const info = @import("info.zig");
+const Fixed = @import("fixed.zig");
+const Tables = @import("tables.zig");
+const Info = @import("info.zig");
+
 
 /// Frame flags:
 /// handles maximum brightness (torches, muzzle flare, light sources)
@@ -19,8 +20,8 @@ pub const SpriteNum = enum {
 };
 
 pub const SpriteDef = struct {
-    state: ?*info.State, // a NULL state means not active
+    state: ?*Info.State, // a NULL state means not active
     ticks: i32,
-    sx: fixed.Fixed,
-    sy: fixed.Fixed,
+    sx: Fixed.Fixed,
+    sy: Fixed.Fixed,
 };

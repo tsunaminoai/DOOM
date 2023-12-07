@@ -1,6 +1,6 @@
 ///  AutoMap module.
 const std = @import("std");
-const DOOM = @import("libdoom");
+const Event = @import("event.zig");
 
 
 /// Used by ST StatusBar stuff.
@@ -9,7 +9,7 @@ pub const MSGENTERED = (MSGHEADER | ('e' << 8));
 pub const MSGEXITED = (MSGHEADER | ('x' << 8));
 
 /// Called by main loop.
-pub fn responder(event: *DOOM.Event) bool {
+pub fn responder(event: *Event) bool {
     _ = event;
 }
 
