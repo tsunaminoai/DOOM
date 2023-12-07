@@ -1,6 +1,11 @@
 ///      Refresh/rendering module, shared data struct definitions.
 const std = @import("std");
-const DOOM = @import("../libdoom.zig");
+const Data = @import("../data.zig");
+const Defs = @import("../definitions.zig");
+const Fixed = @import("../fixed.zig");
+const Think = @import("../think.zig");
+const Mobj = @import("../mobj.zig");
+usingnamespace @import("renderer.zig");
 
 /// Silhouette, needed for clipping Segs (mainly)
 /// and sprites representing things.
@@ -16,8 +21,8 @@ pub const MAXDRAWSEGS = 256;
 // Note: transformed values not buffered locally,
 //  like some DOOM-alikes ("wt", "WebView") did.
 pub const Vertex = struct {
-    x: DOOM.Fixed,
-    y: DOOM.Fixed,
+    x: Fixed.Fixed,
+    y: Fixed.Fixed,
 };
 
 // Forward of LineDefs, for Sectors.
@@ -29,8 +34,8 @@ pub const Line = struct {
     v2: Vertex,
 
     // Precalculated v2 - v1 for side checking.
-    dx: DOOM.Fixed,
-    dy: DOOM.Fixed,
+    dx: Fixed.Fixed,
+    dy: Fixed.Fixed,
 
     // Animation related.
     flags: i8,
@@ -43,7 +48,7 @@ pub const Line = struct {
 
     // Neat. Another bounding box, for the extent
     //  of the LineDef.
-    boundingBox: [4]DOOM.Fixed,
+    boundingBox: [4]Fixed.Fixed,
 
     // To aid move clipping.
     slopType: SlopeType,
@@ -57,7 +62,7 @@ pub const Line = struct {
     validCount: i16,
 
     // thinker_t for reversable actions
-    specialData: ?*DOOM.Thinker,
+    specialData: ?*Think.Thinker,
 };
 
 /// Each sector has a degenmobj_t in its center
@@ -67,17 +72,17 @@ pub const Line = struct {
 ///  position is prolly just buffered, not
 ///  updated.
 pub const DegenMobj = struct {
-    thinker: DOOM.Thinker, // not used for anything
-    x: DOOM.Fixed,
-    y: DOOM.Fixed,
-    z: DOOM.Fixed,
+    thinker: Think.Thinker, // not used for anything
+    x: Fixed.Fixed,
+    y: Fixed.Fixed,
+    z: Fixed.Fixed,
 };
 
 // The SECTORS record, at runtime.
 // Stores things/mobjs.
 pub const Sector = struct {
-    floorHeight: DOOM.Fixed,
-    ceilingHeight: DOOM.Fixed,
+    floorHeight: Fixed.Fixed,
+    ceilingHeight: Fixed.Fixed,
     floorPic: i8,
     ceilingPic: i8,
     leightLevel: i8,
@@ -88,7 +93,7 @@ pub const Sector = struct {
     soundTraversed: i16,
 
     // thing that made a sound (or null)
-    soundTarget: *DOOM.Mobj,
+    soundTarget: *Mobj.Mobj,
 
     // mapblock bounding box for height changes
     blockBox: [4]i16,
@@ -100,10 +105,10 @@ pub const Sector = struct {
     validCount: i16,
 
     // list of mobjs in sector
-    thingList: *DOOM.Mobj,
+    thingList: *Mobj.Mobj,
 
     // thinker_t for reversable actions
-    specialData: *DOOM.Thinker,
+    specialData: *Think.Thinker,
 
     lineCount: i16,
     lines: ?**Line, // [linecount] size
@@ -112,10 +117,10 @@ pub const Sector = struct {
 /// The SideDef.
 pub const Side = struct {
     // add this to the calculated texture column
-    textureOffset: DOOM.Fixed,
+    textureOffset: Fixed.Fixed,
 
     // add this to the calculated texture top
-    rowOffset: DOOM.Fixed,
+    rowOffset: Fixed.Fixed,
 
     // Texture indices.
     // We do not maintain names here.
@@ -151,9 +156,9 @@ pub const Segment = struct {
     v1: *Vertex,
     v2: *Vertex,
 
-    offSet: DOOM.Fixed,
+    offSet: Fixed.Fixed,
 
-    angle: DOOM.Angle,
+    angle: Fixed.Angle,
 
     side: ?*Side,
     line: ?*Line,
@@ -167,13 +172,13 @@ pub const Segment = struct {
 /// BSP Node
 pub const Node = struct {
     // Partition line.
-    x: DOOM.Fixed,
-    y: DOOM.Fixed,
-    dx: DOOM.Fixed,
-    dy: DOOM.Fixed,
+    x: Fixed.Fixed,
+    y: Fixed.Fixed,
+    dx: Fixed.Fixed,
+    dy: Fixed.Fixed,
 
     // Bounding box for each child.
-    boundingBox: [2][4]DOOM.Fixed,
+    boundingBox: [2][4]Fixed.Fixed,
 
     // If NF_SUBSECTOR its a subsector.
     children: [2]u8,
@@ -205,18 +210,18 @@ pub const DrawSegment = struct {
     x1: i16,
     x2: i16,
 
-    scale1: DOOM.Fixed,
-    scale2: DOOM.Fixed,
-    scaleStep: DOOM.Fixed,
+    scale1: Fixed.Fixed,
+    scale2: Fixed.Fixed,
+    scaleStep: Fixed.Fixed,
 
     // 0=none, 1=bottom, 2=top, 3=both
     sillhouette: i16,
 
     // do not clip sprites above this
-    bSilHeight: DOOM.Fixed,
+    bSilHeight: Fixed.Fixed,
 
     // do not clip sprites below this
-    tSilHeight: DOOM.Fixed,
+    tSilHeight: Fixed.Fixed,
 
     // Pointers to lists for sprite clipping,
     //  all three adjusted so [x1] is first value.
@@ -247,22 +252,22 @@ pub const VisSprite = struct {
     next: *VisSprite,
 
     // for line side calculation
-    gx: DOOM.Fixed,
-    gy: DOOM.Fixed,
+    gx: Fixed.Fixed,
+    gy: Fixed.Fixed,
 
     // global bottom / top for silhouette clipping
-    gz: DOOM.Fixed,
-    gzt: DOOM.Fixed,
+    gz: Fixed.Fixed,
+    gzt: Fixed.Fixed,
 
     // horizontal position of x1
-    startFrac: DOOM.Fixed,
+    startFrac: Fixed.Fixed,
 
-    scale: DOOM.Fixed,
+    scale: Fixed.Fixed,
 
     // negative if flipped
-    xiScale: DOOM.Fixed,
+    xiScale: Fixed.Fixed,
 
-    textureMid: DOOM.Fixed,
+    textureMid: Fixed.Fixed,
 
     patch: i16,
 
@@ -308,7 +313,7 @@ pub const Sprite = struct {
 
 /// Now what is a visplane, anyway?
 pub const VisPlane = struct {
-    height: DOOM.Fixed,
+    height: Fixed.Fixed,
     picNum: i16,
     lightLevel: i16,
     minX: i16,
@@ -319,10 +324,10 @@ pub const VisPlane = struct {
 
     // Here lies the rub for all
     //  dynamic resize/change of resolution.
-    top: [DOOM.SCREENWIDTH]u8,
+    top: [Defs.SCREENWIDTH]u8,
     pad2: u8,
     pad3: u8,
     // See above.
-    bottom: [DOOM.SCREENWIDTH]u8,
+    bottom: [Defs.SCREENWIDTH]u8,
     pad4: u8,
 };

@@ -2,6 +2,8 @@ const std = @import("std");
 const Mobj = @import("mobj.zig");
 const Ticks = @import("ticks.zig");
 const Defs = @import("definitions.zig");
+const Fixed = @import("fixed.zig");
+const Sprite = @import("../sprite.zig");
 
 /// Player states.
 pub const PlayerState = enum {

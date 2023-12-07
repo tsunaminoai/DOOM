@@ -1,12 +1,15 @@
 ///	Refresh module, BSP traversal and handling.
 const std = @import("std");
-const DOOM = @import("../libdoom.zig");
+const Data = @import("../data.zig");
+const Defs = @import("../definitions.zig");
+const Renderer =  @import("renderer.zig");
+usingnamespace Renderer;
 
-curline: *DOOM.MapSegment,
-sideDef: *DOOM.MapSideDef,
-lineDef: *DOOM.MapLineDef,
-frontSector: *DOOM.MapSector,
-backSector: *DOOM.MapSector,
+curline: *Data.MapSegment,
+sideDef: *Data.MapSideDef,
+lineDef: *Data.MapLineDef,
+frontSector: *Data.MapSector,
+backSector: *Data.MapSector,
 
 rw_x: i16,
 rw_stopx: i16,
@@ -18,12 +21,12 @@ markFloor: bool,
 markCeiling: bool,
 skyMap: bool,
 
-drawSegments: [DOOM.MAXDRAWSEGS]DOOM.DrawSegment,
-ds_p: *DOOM.DrawSegment,
+drawSegments: [Defs.MAXDRAWSEGS]Renderer.DrawSegment,
+ds_p: *Renderer.DrawSegment,
 
-hscaleLight: **DOOM.LightTable,
-vscaleLight: **DOOM.LightTable,
-dscaleLight: **DOOM.LightTable,
+hscaleLight: **Renderer.LightTable,
+vscaleLight: **Renderer.LightTable,
+dscaleLight: **Renderer.LightTable,
 
 // typedef void (*drawfunc_t) (int start, int stop);
 drawFunction: *fn (start: i16, stop: i16) void,
