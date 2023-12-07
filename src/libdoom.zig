@@ -16,6 +16,7 @@ pub usingnamespace @import("player.zig");
 pub usingnamespace @import("sounds.zig");
 pub usingnamespace @import("sprites.zig");
 pub usingnamespace @import("stat.zig");
+pub usingnamespace @import("statusBar.zig");
 pub usingnamespace @import("system.zig");
 pub usingnamespace @import("tables.zig");
 pub usingnamespace @import("think.zig");
@@ -25,7 +26,6 @@ pub usingnamespace @import("video.zig");
 pub usingnamespace @import("wad.zig");
 pub usingnamespace @import("wipe.zig");
 
-//todo: "st_stuff.h"
 //todo: "am_map.h"
 //todo: "p_setup.h"
 //todo: "r_local.h"
