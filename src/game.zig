@@ -1,6 +1,7 @@
 /// duh
 const std = @import("std");
-const DOOM = @import("libdoom.zig");
+const Defs = @import("definitions.zig");
+const Event = @import("event.zig");
 
 //
 // GAME
@@ -9,7 +10,7 @@ pub fn deathMatchSpawnPlayer(playerNum: i16) void {
     _ = playerNum;
 }
 
-pub fn initNew(skill: DOOM.Skill, episode: i16, map: i16) void {
+pub fn initNew(skill: Defs.Skill, episode: i16, map: i16) void {
     _ = map;
     _ = episode;
     _ = skill;
@@ -18,7 +19,7 @@ pub fn initNew(skill: DOOM.Skill, episode: i16, map: i16) void {
 /// Can be called by the startup code or M_Responder.
 /// A normal game starts at map 1,
 /// but a warp test can start elsewhere
-pub fn deferedInitNew(skill: DOOM.Skill, episode: i16, map: i16) void {
+pub fn deferedInitNew(skill: Defs.Skill, episode: i16, map: i16) void {
     _ = map;
     _ = episode;
     _ = skill;
@@ -60,7 +61,7 @@ pub fn exitLevel() void {}
 pub fn secretExitLevel() void {}
 pub fn worldDone() void {}
 pub fn ticker() void {}
-pub fn responder(event: *DOOM.Event) bool {
+pub fn responder(event: *Event.Event) bool {
     _ = event;
 }
 

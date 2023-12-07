@@ -2,13 +2,14 @@
 ///	Functions to draw patches (by post) directly to screen.
 ///	Functions to blit a block to the screen.
 const std = @import("std");
-const DOOM = @import("libdoom.zig");
+const Defs = @import("definitions.zig");
+const Video = @import("video.zig");
 
 //
 // VIDEO
 //
 
-pub const CENTERY = (DOOM.SCREENHEIGHT / 2);
+pub const CENTERY = (Defs.SCREENHEIGHT / 2);
 
 // Screen 0 is the screen updated by I_Update screen.
 // Screen 1 is an extra buffer.
@@ -45,7 +46,7 @@ pub fn drawPatch(
     x: i16,
     y: i16,
     screen: i16,
-    patch: *DOOM.Patch,
+    patch: *Video.Patch,
 ) void {
     _ = patch;
     _ = screen;
@@ -56,7 +57,7 @@ pub fn drawPatchDirect(
     x: i16,
     y: i16,
     screen: i16,
-    patch: *DOOM.Patch,
+    patch: *Video.Patch,
 ) void {
     _ = patch;
     _ = screen;

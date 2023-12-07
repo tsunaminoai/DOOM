@@ -1,7 +1,6 @@
 ///	Created by the sound utility written by Dave Taylor.
 ///	Kept as a sample, DOOM2  sounds. Frozen.
 const std = @import("std");
-const DOOM = @import("libdoom.zig");
 
 ///  SoundFX struct.
 pub const SFXInfo = struct {

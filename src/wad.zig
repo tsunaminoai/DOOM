@@ -1,6 +1,5 @@
 ///	WAD I/O functions.
 const std = @import("std");
-const DOOM = @import("libdoom.zig");
 
 // TYPES
 pub const WADInfo = struct {

@@ -4,7 +4,6 @@
 ///	Quake.
 ///
 const std = @import("std");
-const DOOM = @import("libdoom.zig");
 
 /// ZONE MEMORY
 /// PU - purge tags.

@@ -1,10 +1,10 @@
 ///	Items: key cards, artifacts, weapon, ammunition.
 const std = @import("std");
-const defs = @import("definitions.zig");
+const Defs = @import("definitions.zig");
 
 /// Weapon info: sprite frames, ammunition use.
 pub const WeaponInfo = struct {
-    ammo: defs.AmmoType,
+    ammo: Defs.AmmoType,
     upState: i32,
     downState: i32,
     readyState: i32,
@@ -12,4 +12,4 @@ pub const WeaponInfo = struct {
     flashState: i32,
 };
 
-pub var weaponInfo: [defs.NumWeapons]WeaponInfo = undefined;
+pub var weaponInfo: [Defs.NumWeapons]WeaponInfo = undefined;

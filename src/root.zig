@@ -1,9 +1,34 @@
 const std = @import("std");
-pub const testing = std.testing;
-pub const DOOM = @import("libdoom.zig");
+// pub const DOOM = @import("libdoom.zig");
 pub const Sprite = @import("sprites.zig");
 pub const Renderer = @import("renderer/renderer.zig");
-
+pub const Data = @import("data.zig");
+pub const AutoMap = @import("automap.zig");
+pub const Defs = @import("definitions.zig");
+pub const Event = @import("event.zig");
+pub const Finale = @import("finale.zig");
+pub const Fixed = @import("fixed.zig");
+pub const Game = @import("game.zig");
+pub const HUD = @import("hud.zig");
+pub const Info = @import("info.zig");
+pub const Intermission = @import("intermission.zig");
+pub const Items = @import("items.zig");
+pub const Menu = @import("menu.zig");
+pub const Misc = @import("misc.zig");
+pub const Mobj = @import("mobj.zig");
+pub const Player = @import("player.zig");
+pub const Setup = @import("setup.zig");
+pub const Sound = @import("sounds.zig");
+pub const Stat = @import("stat.zig");
+pub const StatusBar = @import("statusBar.zig");
+pub const System = @import("system.zig");
+pub const Tables = @import("tables.zig");
+pub const Think = @import("think.zig");
+pub const Ticks = @import("ticks.zig");
+pub const Types = @import("types.zig");
+pub const Video = @import("video.zig");
+pub const WAD = @import("wad.zig");
+pub const Wipe = @import("wipe.zig");
 test {
-    testing.refAllDecls(@This());
+    std.testing.refAllDecls(@This());
 }

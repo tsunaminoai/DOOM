@@ -1,6 +1,6 @@
 ///	System specific interface stuff.
 const std = @import("std");
-const DOOM = @import("libdoom.zig");
+const Ticks = @import("ticks.zig");
 
 /// Called by DoomMain.
 pub fn init() void {}
@@ -38,7 +38,7 @@ pub fn startTick() void {}
 /// or calls a loadable driver to build it.
 /// This ticcmd will then be modified by the gameloop
 /// for normal input.
-pub fn baseTickCmd() *DOOM.TickCommand {}
+pub fn baseTickCmd() *Ticks.TickCommand {}
 
 /// Called by M_Responder when quit is selected.
 /// Clean exit, displays sell blurb.

@@ -1,8 +1,7 @@
 const std = @import("std");
-const DOOM = @import("DOOM");
 const config = @import("config");
 const Strings = @import("strings.zig").Strings(config.language);
-const Sounds = @import("sounds.zig");
+const Sound = @import("root").Sound;
 
 //todo: "d_main.h"
 

@@ -1,6 +1,5 @@
 ///	Mission start screen wipe/melt, special effects.
 const std = @import("std");
-const DOOM = @import("libdoom.zig");
 
 /// SCREEN WIPE PACKAGE
 const WipeTag = enum(u3) {

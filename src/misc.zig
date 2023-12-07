@@ -2,7 +2,10 @@
 ///	Default Config File.
 ///	PCX Screenshots.
 const std = @import("std");
-const DOOM = @import("libdoom.zig");
+const Video = @import("video.zig");
+const HUD = @import("hud.zig");
+const Defs = @import("definitions.zig");
+const WAD = @import("wad.zig");
 
 // static const char
 // rcsid[] = "$Id: m_misc.c,v 1.6 1997/02/03 22:45:10 b1 Exp $";
@@ -24,25 +27,25 @@ pub const rcsid = "$Id: m_misc.c,v 1.6 1997/02/03 22:45:10 b1 Exp $";
 // #include "hu_stuff.h"
 
 // extern patch_t*		hu_font[HU_FONTSIZE];
-pub var hu_font: [DOOM.HU_FONTSIZE]DOOM.Patch = undefined;
+pub var hu_font: [HUD.FONTSIZE]Video.Patch = undefined;
 ///  Returns the final X coordinate
 ///  HU_Init must have been called to init the font
 pub fn drawTest(x: i16, y: i16, direct: bool, string: []const u8) i16 {
     var ret: i16 = x;
     var w: i16 = 0;
     for (string) |c| {
-        const char = std.ascii.toUpper(c) - DOOM.HU_FONTSTART;
-        if (char < 0 or char > DOOM.HU_FONTSIZE) {
+        const char = std.ascii.toUpper(c) - HUD.FONTSTART;
+        if (char < 0 or char > HUD.FONTSIZE) {
             ret += 4;
             continue;
         }
-        w = DOOM.hu_font[c].width;
-        if (ret + w > DOOM.SCREENWIDTH)
+        w = HUD.hu_font[c].width;
+        if (ret + w > Defs.SCREENWIDTH)
             break;
         if (direct)
-            DOOM.drawPatchDirect(x, y, 0, hu_font[c])
+            Video.drawPatchDirect(x, y, 0, hu_font[c])
         else
-            DOOM.drawPatch(x, y, 0, hu_font[c]);
+            Video.drawPatch(x, y, 0, hu_font[c]);
         ret += w;
     }
     return ret;
@@ -181,15 +184,15 @@ pub var settings = [_]Setting{
     Setting.init(.SFXVolume, "sfx_volume", 8),
     Setting.init(.musicVolume, "music_volume", 5),
     Setting.init(.showMessages, "show_messages", 5),
-    Setting.init(.key_right, "key_right", DOOM.Keys.rightArrow.toInt()),
-    Setting.init(.key_down, "key_down", DOOM.Keys.downArrow.toInt()),
-    Setting.init(.key_left, "key_left", DOOM.Keys.leftArrow.toInt()),
-    Setting.init(.key_up, "key_up", DOOM.Keys.upArrow.toInt()),
-    Setting.init(.key_strafeleft, "key_strafeleft", DOOM.Keys.comma.toInt()),
-    Setting.init(.key_straferight, "key_straferight", DOOM.Keys.period.toInt()),
-    Setting.init(.key_fire, "key_fire", DOOM.Keys.rightControl.toInt()),
-    Setting.init(.key_use, "key_straferight", DOOM.Keys.space.toInt()),
-    Setting.init(.key_speed, "key_speed", DOOM.Keys.rightShift.toInt()),
+    Setting.init(.key_right, "key_right", Defs.Keys.rightArrow.toInt()),
+    Setting.init(.key_down, "key_down", Defs.Keys.downArrow.toInt()),
+    Setting.init(.key_left, "key_left", Defs.Keys.leftArrow.toInt()),
+    Setting.init(.key_up, "key_up", Defs.Keys.upArrow.toInt()),
+    Setting.init(.key_strafeleft, "key_strafeleft", Defs.Keys.comma.toInt()),
+    Setting.init(.key_straferight, "key_straferight", Defs.Keys.period.toInt()),
+    Setting.init(.key_fire, "key_fire", Defs.Keys.rightControl.toInt()),
+    Setting.init(.key_use, "key_straferight", Defs.Keys.space.toInt()),
+    Setting.init(.key_speed, "key_speed", Defs.Keys.rightShift.toInt()),
     //  UNIX hack, to be removed.
     // #ifdef SNDSERV
     //     {"sndserver", (int *) &sndserver_filename, (int) "sndserver"},
@@ -346,10 +349,10 @@ pub fn readScreen(v: anytype) void {
 
 /// M_ScreenShot
 pub fn screenShot(alloc: std.mem.Allocator) !void {
-    const linear = try alloc.alloc(u8, DOOM.SCREENWIDTH * DOOM.SCREENHEIGHT);
+    const linear = try alloc.alloc(u8, Defs.SCREENWIDTH * Defs.SCREENHEIGHT);
     defer alloc.free(linear);
 
-    DOOM.readScreen(linear);
+    readScreen(linear);
 
     var name = try alloc.alloc(u8, 12);
     defer alloc.free(name);
@@ -371,9 +374,9 @@ pub fn screenShot(alloc: std.mem.Allocator) !void {
     writePCXFile(
         name,
         linear,
-        DOOM.SCREENWIDTH,
-        DOOM.SCREENHEIGHT,
-        DOOM.wad.cacheLumpName("PLAYPAL"),
+        Defs.SCREENWIDTH,
+        Defs.SCREENHEIGHT,
+        WAD.WAD.cacheLumpName("PLAYPAL"),
         std.testing.allocator,
     );
     //     players[consoleplayer].message = "screen shot";

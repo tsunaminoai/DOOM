@@ -1,9 +1,9 @@
 ///   Setup a game, startup stuff.
 const std = @import("std");
-const DOOM = @import("libdoom.zig");
+const Defs = @import("definitions.zig");
 
 /// NOT called by W_Ticker. Fixme.
-pub fn setupLevel(episode: i16, map: i16, playermask: i16, skill: DOOM.Skill) void {
+pub fn setupLevel(episode: i16, map: i16, playermask: i16, skill: Defs.Skill) void {
     _ = skill;
     _ = playermask;
     _ = map;

@@ -15,7 +15,7 @@
 ///
 ///-----------------------------------------------------------------------------
 const std = @import("std");
-const fixed = @import("fixed.zig");
+const Fixed = @import("fixed.zig");
 
 pub const FineAngles = 8192;
 pub const FineMask = FineAngles - 1;
@@ -31,7 +31,7 @@ pub const Angle270 = 0xc0000000;
 
 pub const SlopeRange = 2048;
 pub const SlopeBits = 11;
-pub const DBits = fixed.FractionalBits - SlopeBits;
+pub const DBits = Fixed.Fixed.FractionalBits - SlopeBits;
 
 // Effective size is 2049;
 // The +1 size is to handle the case when x==y
@@ -47,7 +47,7 @@ pub fn slopeDivide(numerator: u32, denominator: u32) u32 {
     return if (answer <= SlopeRange) answer else SlopeRange;
 }
 
-pub const fineTangent: [FineAngles / 2]fixed.Fixed = [_]i32{
+pub const fineTangent: [FineAngles / 2]Fixed.Fixed.Fixed.Fixed = [_]i32{
     // zig fmt: off
 
     -170910304,-56965752,-34178904,-24413316,-18988036,-15535599,-13145455,-11392683,
@@ -565,7 +565,7 @@ pub const fineTangent: [FineAngles / 2]fixed.Fixed = [_]i32{
 // zig fmt: on
 };
     
-pub const fineSine : [5 * FineAngles / 4]fixed.Fixed = [_]i32{
+pub const fineSine : [5 * FineAngles / 4]Fixed.Fixed.Fixed.Fixed = [_]i32{
 
     //zig fmt: off
     25,75,125,175,226,276,326,376,
@@ -1852,7 +1852,7 @@ pub const fineSine : [5 * FineAngles / 4]fixed.Fixed = [_]i32{
 
 
 };
-pub const fineCosing :*fixed.Fixed = &fineSine;
+pub const fineCosing :*Fixed.Fixed.Fixed.Fixed = &fineSine;
 
 pub const tanToAngle:[SlopeRange + 1]Angle = [_]Angle{
     //zig fmt: off

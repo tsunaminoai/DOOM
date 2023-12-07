@@ -1,6 +1,6 @@
 ///  Intermission.
 const std = @import("std");
-const DOOM = @import("libdoom.zig");
+const Player = @import("player.zig");
 
 /// States for the intermission
 pub const IntermissionState = enum(i16) {
@@ -17,6 +17,6 @@ pub fn ticker() void {}
 pub fn drawer() void {}
 
 /// Setup for an intermission screen.
-pub fn start(wbstart: *DOOM.WebStart) void {
+pub fn start(wbstart: *Player.WebStart) void {
     _ = wbstart;
 }
