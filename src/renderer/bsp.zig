@@ -2,8 +2,6 @@
 const std = @import("std");
 const Data = @import("../data.zig");
 const Defs = @import("../definitions.zig");
-const Renderer =  @import("renderer.zig");
-usingnamespace Renderer;
 
 curline: *Data.MapSegment,
 sideDef: *Data.MapSideDef,
@@ -21,12 +19,12 @@ markFloor: bool,
 markCeiling: bool,
 skyMap: bool,
 
-drawSegments: [Defs.MAXDRAWSEGS]Renderer.DrawSegment,
-ds_p: *Renderer.DrawSegment,
+drawSegments: [Defs.MAXDRAWSEGS]Defs.DrawSegment,
+ds_p: *Defs.DrawSegment,
 
-hscaleLight: **Renderer.LightTable,
-vscaleLight: **Renderer.LightTable,
-dscaleLight: **Renderer.LightTable,
+hscaleLight: **Defs.LightTable,
+vscaleLight: **Defs.LightTable,
+dscaleLight: **Defs.LightTable,
 
 // typedef void (*drawfunc_t) (int start, int stop);
 drawFunction: *fn (start: i16, stop: i16) void,

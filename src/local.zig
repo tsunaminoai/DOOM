@@ -6,12 +6,6 @@ const Data = @import("data.zig");
 const Player = @import("player.zig");
 const Renderer = @import("renderer/renderer.zig");
 
-//todo: #include "r_segs.h"
-//todo: #include "r_plane.h"
-//todo: #include "r_data.h"
-//todo: #include "r_things.h"
-//todo: #include "r_draw.h"
-
 viewCos: Fixed.Fixed,
 viewSin: Fixed.Fixed,
 viewWidth: i16,

@@ -1,5 +1,6 @@
 ///	Fixed point arithemtics, implementation.
 const std = @import("std");
+const Tables = @import("tables.zig");
 
 //
 // Fixed point, 32bit as 16.16.
@@ -8,6 +9,7 @@ pub const FractionalBits = 16;
 pub const FractionalUnit = (1 << FractionalBits);
 
 pub const Fixed = i32;
+pub const Angle = Tables.Angle;
 
 pub fn FixedMultiply(a: Fixed, b: Fixed) Fixed {
     return (a * b) >> FractionalBits;

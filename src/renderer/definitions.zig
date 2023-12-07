@@ -2,10 +2,10 @@
 const std = @import("std");
 const Data = @import("../data.zig");
 const Defs = @import("../definitions.zig");
-const Fixed = @import("../fixed.zig");
 const Think = @import("../think.zig");
 const Mobj = @import("../mobj.zig");
-usingnamespace @import("renderer.zig");
+pub const Fixed = @import("../fixed.zig");
+pub const DoomDefs = Defs;
 
 /// Silhouette, needed for clipping Segs (mainly)
 /// and sprites representing things.
