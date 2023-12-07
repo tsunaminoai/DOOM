@@ -10,6 +10,7 @@ pub usingnamespace @import("hud.zig");
 pub usingnamespace @import("info.zig");
 pub usingnamespace @import("intermission.zig");
 pub usingnamespace @import("items.zig");
+pub usingnamespace @import("local.zig");
 pub usingnamespace @import("menu.zig");
 pub usingnamespace @import("misc.zig");
 pub usingnamespace @import("mobj.zig");
@@ -27,5 +28,3 @@ pub usingnamespace @import("types.zig");
 pub usingnamespace @import("video.zig");
 pub usingnamespace @import("wad.zig");
 pub usingnamespace @import("wipe.zig");
-
-//todo: "r_local.h"
