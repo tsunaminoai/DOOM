@@ -10,7 +10,6 @@ pub usingnamespace @import("renderer/plane.zig");
 pub usingnamespace @import("renderer/segments.zig");
 pub usingnamespace @import("renderer/things.zig");
 
-//todo: #include "r_bsp.h"
 //todo: #include "r_segs.h"
 //todo: #include "r_plane.h"
 //todo: #include "r_data.h"
