@@ -6,8 +6,8 @@ const State = @import("state.zig");
 
 /// Retrieve column data for span blitting.
 pub fn getColumn(tex: i16, col: i16) *u8 {
-    _ = tex;
     _ = col;
+    _ = tex;
 }
 
 /// I/O, setting up the stuff.
