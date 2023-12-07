@@ -242,222 +242,140 @@ test "save settings" {
     defaultFile = "tmp/defaults.json";
     try saveSettings(std.testing.allocator);
 }
-// void M_SaveDefaults (void)
-// {
-//     int		i;
-//     int		v;
-//     FILE*	f;
 
-//     f = fopen (defaultfile, "w");
-//     if (!f)
-// 	return; // can't write the file, but don't complain
+var scanToKey: [128]i16 = undefined;
 
-//     for (i=0 ; i<numdefaults ; i++)
-//     {
-// 	if (defaults[i].defaultvalue > -0xfff
-// 	    && defaults[i].defaultvalue < 0xfff)
-// 	{
-// 	    v = *defaults[i].location;
-// 	    fprintf (f,"%s\t\t%i\n",defaults[i].name,v);
-// 	} else {
-// 	    fprintf (f,"%s\t\t\"%s\"\n",defaults[i].name,
-// 		     * (char **) (defaults[i].location));
-// 	}
-//     }
+///  M_LoadDefaults
+pub fn loadSettings(alloc: std.mem.Allocator) !void {
+    const sets = try readFile(defaultFile, alloc);
+    defer alloc.free(sets);
+    std.debug.print("{s}\n", .{sets});
 
-//     fclose (f);
-// }
+    const config = try std.json.parseFromSlice(u8, alloc, sets, .{});
+    defer config.deinit();
+    std.debug.print("{any}\n", .{config});
+}
 
-//
-//  M_LoadDefaults
-//
-// extern byte	scantokey[128];
-
-// void M_LoadDefaults (void)
-// {
-//     int		i;
-//     int		len;
-//     FILE*	f;
-//     char	def[80];
-//     char	strparm[100];
-//     char*	newstring;
-//     int		parm;
-//     boolean	isstring;
-
-//  set everything to base values
-//     numdefaults = sizeof(defaults)/sizeof(defaults[0]);
-//     for (i=0 ; i<numdefaults ; i++)
-// 	*defaults[i].location = defaults[i].defaultvalue;
-
-//  check for a custom default file
-//     i = M_CheckParm ("-config");
-//     if (i && i<myargc-1)
-//     {
-// 	defaultfile = myargv[i+1];
-// 	printf ("	default file: %s\n",defaultfile);
-//     }
-//     else
-// 	defaultfile = basedefault;
-
-//  read the file in, overriding any set defaults
-//     f = fopen (defaultfile, "r");
-//     if (f)
-//     {
-// 	while (!feof(f))
-// 	{
-// 	    isstring = false;
-// 	    if (fscanf (f, "%79s %[^\n]\n", def, strparm) == 2)
-// 	    {
-// 		if (strparm[0] == '"')
-// 		{
-//  get a string default
-// 		    isstring = true;
-// 		    len = strlen(strparm);
-// 		    newstring = (char *) malloc(len);
-// 		    strparm[len-1] = 0;
-// 		    strcpy(newstring, strparm+1);
-// 		}
-// 		else if (strparm[0] == '0' && strparm[1] == 'x')
-// 		    sscanf(strparm+2, "%x", &parm);
-// 		else
-// 		    sscanf(strparm, "%i", &parm);
-// 		for (i=0 ; i<numdefaults ; i++)
-// 		    if (!strcmp(def, defaults[i].name))
-// 		    {
-// 			if (!isstring)
-// 			    *defaults[i].location = parm;
-// 			else
-// 			    *defaults[i].location =
-// 				(int) newstring;
-// 			break;
-// 		    }
-// 	    }
-// 	}
-
-// 	fclose (f);
-//     }
+//todo: fix loading settings
+// test "load settings" {
+//     defaultFile = "tmp/defaults.json";
+//     try saveSettings(std.testing.allocator);
+//     try loadSettings(std.testing.allocator);
+//     try std.testing.expectEqual(settings[0].currentValue, 5);
 // }
 
 //
 //  SCREEN SHOTS
 //
+const PCXHeader = struct {
+    manufacturer: u8,
+    version: u8,
+    encoding: u8,
+    bits_per_pixel: u8,
+    xmin: u16,
+    ymin: u16,
+    xmax: u16,
+    ymax: u16,
+    hres: u16,
+    vres: u16,
+    palette: [48]u8,
+    reserved: u8,
+    color_planes: u8,
+    bytes_per_line: u16,
+    palette_type: u16,
+    filler: [58]u8,
+    data: [0]u8,
+};
 
-// typedef struct
-// {
-//     char		manufacturer;
-//     char		version;
-//     char		encoding;
-//     char		bits_per_pixel;
+///  WritePCXfile
+pub fn writePCXFile(
+    filename: []const u8,
+    data: []const u8,
+    width: i16,
+    height: i16,
+    palette: []const u8,
+    alloc: std.mem.Allocator,
+) !void {
+    var pcx = try alloc.alloc(PCXHeader, 1);
+    defer alloc.free(pcx);
 
-//     unsigned short	xmin;
-//     unsigned short	ymin;
-//     unsigned short	xmax;
-//     unsigned short	ymax;
+    pcx.manufacturer = 0x0a; // PCX id
+    pcx.version = 5; // 256 color
+    pcx.encoding = 1; // uncompressed
+    pcx.bits_per_pixel = 8; // 256 color
+    pcx.xmin = 0;
+    pcx.ymin = 0;
+    pcx.xmax = width - 1;
+    pcx.ymax = height - 1;
+    pcx.hres = width;
+    pcx.vres = height;
+    pcx.color_planes = 1; // chunky image
+    pcx.bytes_per_line = width;
+    pcx.palette_type = 2; // not a grey scale
 
-//     unsigned short	hres;
-//     unsigned short	vres;
+    //  pack the image
+    var pack = &pcx.data;
+    for (data) |c| {
+        if (c & 0xc0 != 0xc0) {
+            pack.* = c;
+            pack += 1;
+        } else {
+            pack.* = 0xc1;
+            pack += 1;
+            pack.* = c;
+            pack += 1;
+        }
+    }
 
-//     unsigned char	palette[48];
+    //  write the palette
+    pack.* = 0x0c; // palette ID byte
+    pack += 1;
+    for (palette) |c| {
+        pack.* = c;
+        pack += 1;
+    }
 
-//     char		reserved;
-//     char		color_planes;
-//     unsigned short	bytes_per_line;
-//     unsigned short	palette_type;
+    //  write output file
+    const length = pack - &pcx.data;
+    try writeFile(filename, &pcx, length);
+}
 
-//     char		filler[58];
-//     unsigned char	data;		// unbounded
-// } pcx_t;
+pub fn readScreen(v: anytype) void {
+    _ = v;
+}
 
-//
-//  WritePCXfile
-//
-// void
-// WritePCXfile
-// ( char*		filename,
-//   byte*		data,
-//   int		width,
-//   int		height,
-//   byte*		palette )
-// {
-//     int		i;
-//     int		length;
-//     pcx_t*	pcx;
-//     byte*	pack;
+/// M_ScreenShot
+pub fn screenShot(alloc: std.mem.Allocator) !void {
+    const linear = try alloc.alloc(u8, DOOM.SCREENWIDTH * DOOM.SCREENHEIGHT);
+    defer alloc.free(linear);
 
-//     pcx = Z_Malloc (width*height*2+1000, PU_STATIC, NULL);
+    DOOM.readScreen(linear);
 
-//     pcx->manufacturer = 0x0a;		// PCX id
-//     pcx->version = 5;			// 256 color
-//     pcx->encoding = 1;			// uncompressed
-//     pcx->bits_per_pixel = 8;		// 256 color
-//     pcx->xmin = 0;
-//     pcx->ymin = 0;
-//     pcx->xmax = SHORT(width-1);
-//     pcx->ymax = SHORT(height-1);
-//     pcx->hres = SHORT(width);
-//     pcx->vres = SHORT(height);
-//     memset (pcx->palette,0,sizeof(pcx->palette));
-//     pcx->color_planes = 1;		// chunky image
-//     pcx->bytes_per_line = SHORT(width);
-//     pcx->palette_type = SHORT(2);	// not a grey scale
-//     memset (pcx->filler,0,sizeof(pcx->filler));
+    var name = try alloc.alloc(u8, 12);
+    defer alloc.free(name);
 
-//  pack the image
-//     pack = &pcx->data;
+    name = "DOOM00.pcx";
+    for (name[4..]) |c| {
+        if (c == 0)
+            break;
+        if (c == '.')
+            break;
+        if (c == '9') {
+            c = '0';
+            name[3] += 1;
+        } else {
+            c += 1;
+        }
+    }
 
-//     for (i=0 ; i<width*height ; i++)
-//     {
-// 	if ( (*data & 0xc0) != 0xc0)
-// 	    *pack++ = *data++;
-// 	else
-// 	{
-// 	    *pack++ = 0xc1;
-// 	    *pack++ = *data++;
-// 	}
-//     }
+    writePCXFile(
+        name,
+        linear,
+        DOOM.SCREENWIDTH,
+        DOOM.SCREENHEIGHT,
+        DOOM.wad.cacheLumpName("PLAYPAL"),
+        std.testing.allocator,
+    );
+    //     players[consoleplayer].message = "screen shot";
 
-//  write the palette
-//     *pack++ = 0x0c;	// palette ID byte
-//     for (i=0 ; i<768 ; i++)
-// 	*pack++ = *palette++;
-
-//  write output file
-//     length = pack - (byte *)pcx;
-//     M_WriteFile (filename, pcx, length);
-
-//     Z_Free (pcx);
-// }
-
-//
-//  M_ScreenShot
-//
-// void M_ScreenShot (void)
-// {
-//     int		i;
-//     byte*	linear;
-//     char	lbmname[12];
-
-//  munge planar buffer to linear
-//     linear = screens[2];
-//     I_ReadScreen (linear);
-
-//  find a file name to save it to
-//     strcpy(lbmname,"DOOM00.pcx");
-
-//     for (i=0 ; i<=99 ; i++)
-//     {
-// 	lbmname[4] = i/10 + '0';
-// 	lbmname[5] = i%10 + '0';
-// 	if (access(lbmname,0) == -1)
-// 	    break;	// file doesn't exist
-//     }
-//     if (i==100)
-// 	I_Error ("M_ScreenShot: Couldn't create a PCX");
-
-//  save the pcx file
-//     WritePCXfile (lbmname, linear,
-// 		  SCREENWIDTH, SCREENHEIGHT,
-// 		  W_CacheLumpName ("PLAYPAL",PU_CACHE));
-
-//     players[consoleplayer].message = "screen shot";
-// }
+}
