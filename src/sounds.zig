@@ -242,7 +242,6 @@ pub fn setSFXVolume(volume: i16) void {
 // extern char* sndserver_filename;
 // #endif
 
-
 // Init at program start...
 pub fn initSound() void {}
 
@@ -254,60 +253,88 @@ pub fn submitSound() void {}
 // ... shut down and relase at program termination.
 pub fn shutDownSound() void {}
 
-
-
 ///   SFX I/O
-
 ///  Initialize channels?
-pub fn setChannels()void{};
+pub fn setChannels() void {}
 
 ///  Get raw data lump index for sound descriptor.
-pub fn getSFXLumpNumber(sfxinfo: *SFXInfo) i16 {}
+pub fn getSFXLumpNumber(sfxinfo: *SFXInfo) i16 {
+    _ = sfxinfo;
+}
 
 ///  Starts a sound in a particular sound channel.
-pub fn startSoundChannel(id: i16, volume: i16, sep: i16, pitch: i16, priority: i16,) i16 {}
+pub fn startSoundChannel(
+    id: i16,
+    volume: i16,
+    sep: i16,
+    pitch: i16,
+    priority: i16,
+) i16 {
+    _ = priority;
+    _ = pitch;
+    _ = sep;
+    _ = volume;
+    _ = id;
+}
 
 ///  Stops a sound channel.
-pub fn stopSoundChannel(handle: i16)void {}
+pub fn stopSoundChannel(handle: i16) void {
+    _ = handle;
+}
 
 ///  Called by S_*() functions
 ///   to see if a channel is still playing.
 ///  Returns 0 if no longer playing, 1 if playing.
 pub fn isSoundPlaying(handle: i16) bool {
-
+    _ = handle;
 }
 
 ///  Updates the volume, separation,
 ///   and pitch of a sound channel.
-pub fn updateSoundParams(handle: i16, volume: i16, sep: i16, pitch: i16,) void {
-
+pub fn updateSoundParams(
+    handle: i16,
+    volume: i16,
+    sep: i16,
+    pitch: i16,
+) void {
+    _ = pitch;
+    _ = sep;
+    _ = volume;
+    _ = handle;
 }
 
-
 ///   MUSIC I/O
-pub fn initMusic()void{}
-pub fn shutDownMusic()void{}
-
-///  Volume.
-pub fn setMusicVolume(volume: i16) void {}
+pub fn initMusic() void {}
+pub fn shutDownMusic() void {}
 
 ///  PAUSE game handling.
-pub fn pauseSong(handle: i16) void{}
-pub fn resumeSong(handle: i16) void{}
+pub fn pauseSong(handle: i16) void {
+    _ = handle;
+}
+pub fn resumeSong(handle: i16) void {
+    _ = handle;
+}
 
 ///  Registers a song handle to song data.
-pub fn registerSong(data: *u8) i16 {}
+pub fn registerSong(data: *u8) i16 {
+    _ = data;
+}
 
 ///  Called by anything that wishes to start music.
 ///   plays a song, and when the song is done,
 ///   starts playing it again in an endless loop.
 ///  Horrible thing to do, considering.
-pub fn playSong(handle: i16, looping: bool) void{}
+pub fn playSong(handle: i16, looping: bool) void {
+    _ = looping;
+    _ = handle;
+}
 
 ///  Stops a song over 3 seconds.
-pub fn stopSong(handle: i16) void {}
+pub fn stopSong(handle: i16) void {
+    _ = handle;
+}
 
 ///  See above (register), then think backwards
-pub fn unRegisterSong(handle: i16) void{}
-
-
+pub fn unRegisterSong(handle: i16) void {
+    _ = handle;
+}
