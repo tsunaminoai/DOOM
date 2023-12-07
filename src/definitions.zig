@@ -197,7 +197,13 @@ pub const Keys = enum(u8) {
     rightShift = (0x80 + 0x36),
     rightControl = (0x80 + 0x1d),
     rightAlt = (0x80 + 0x38),
-    leftAlt = (0x80 + 0x38),
+    leftAlt = (0x80 + 0x39),
+    comma = ',',
+    period = '.',
+    space = ' ',
+    pub fn toInt(self: @This()) i16 {
+        return @intFromEnum(self);
+    }
 };
 
 // DOOM basic types (boolean),
