@@ -2,7 +2,7 @@
 const std = @import("std");
 const Ticks = @import("ticks.zig");
 
-var mb_used: i16 = 6;
+const mb_used = 6;
 
 /// Called by DoomMain.
 pub fn init() void {}
@@ -10,10 +10,10 @@ pub fn init() void {}
 /// Called by startup code
 /// to get the ammount of memory to malloc
 /// for the zone management.
-pub fn zoneBase(size: *i16) *u8 {
+pub fn zoneBase(size: *i32) *u8 {
     size.* = mb_used * 1024 * 1024;
-    const buff = [_]u8{0} ** (mb_used * 1024 * 1024);
-    return buff;
+    var buff = [_]u8{0} ** (mb_used * 1024 * 1024);
+    return @as(*u8, *(&buff));
 }
 
 /// Called by D_DoomLoop,

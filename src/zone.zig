@@ -8,6 +8,7 @@ const std = @import("std");
 const System = @import("system.zig");
 const Defs = @import("definitions.zig");
 
+const int = i32;
 /// ZONE MEMORY
 /// PU - purge tags.
 /// Tags < 100 are not overwritten until freed.
@@ -33,10 +34,10 @@ pub fn changeTag2() void {}
 pub fn freeMemory() void {}
 
 pub const MemoryBlock = struct {
-    size: i16, // including the header and possibly tiny fragments
+    size: int, // including the header and possibly tiny fragments
     user: ?*void, // NULL if a free block
-    tag: i16, // purgelevel
-    id: i16, // should be ZONEID
+    tag: int, // purgelevel
+    id: int, // should be ZONEID
     next: ?*MemoryBlock,
     prev: ?*MemoryBlock,
 };
@@ -61,7 +62,7 @@ pub fn changeTag(p: anytype, t: anytype) void {
 ///  because it will get overwritten automatically if needed.
 const MemoryZone = struct {
     // total bytes malloced, including header
-    size: i16,
+    size: int,
 
     // start / end cap for linked list
     blockList: MemoryBlock,
@@ -98,7 +99,7 @@ const MemoryZone = struct {
 
     pub fn init() Self {
         var block: *MemoryBlock = undefined;
-        var size: i16 = 0;
+        var size: int = 0;
 
         mainZone = System.zoneBase(&size);
         mainZone.size = size;
@@ -165,8 +166,11 @@ const MemoryZone = struct {
                 mainZone.rover = block;
         }
     }
-    pub fn malloc(self: *Self, size: i16, tag: i16, user: ?*void) *void {
-        var extra: i16 = 0;
+
+    /// Z_Malloc
+    /// You can pass a NULL user if the tag is < PU_PURGELEVEL.
+    pub fn malloc(self: *Self, size: int, tag: int, user: ?*void) *void {
+        var extra: int = 0;
         var start: *MemoryBlock = undefined;
         var rover: *MemoryBlock = undefined;
         var newBlock: *MemoryBlock = undefined;
@@ -250,4 +254,101 @@ const MemoryZone = struct {
         base.id = ZONEID;
         return @as(*void, @as(*u8, base + @sizeOf(MemoryBlock)));
     }
+
+    pub fn freeTags(self: *Self, lowTag: int, highTag: int) void {
+        var block: *MemoryBlock = undefined;
+        var next: *MemoryBlock = undefined;
+
+        block = mainZone.blockList.next;
+        while (block != &mainZone.blockList) : (block = next) {
+            // get link before freeing
+            next = block.next;
+
+            //free block?
+            if (block.user == null)
+                continue;
+
+            if (block.tag >= lowTag and block.tag <= highTag)
+                self.free(@as(*u8, block + @sizeOf(MemoryBlock)));
+        }
+    }
+
+    /// Z_DumpHeap
+    /// Note: TFileDumpHeap( stdout ) ?
+    pub fn dumpHeap(self: *Self, lowTag: int, highTag: int) void {
+        _ = self;
+        var block: *MemoryBlock = undefined;
+        std.debug.print("zone size: {}  location: {p}\n", .{ mainZone.size, mainZone });
+        std.debug.print("tag range: {} to {}\n", .{ lowTag, highTag });
+
+        block = mainZone.blockList.next;
+        while (block.next) |b| {
+            if (b.tag >= lowTag and b.tag <= highTag)
+                std.debug.print(
+                    "block:{p}    size:{i:7}    user:{p}    tag:{i:3}\n",
+                    .{ b, b.size, b.user, b.tag },
+                );
+            block = b.next;
+            if (block.next == &mainZone.blockList)
+                break; // all blocks have been hit
+
+        }
+        if (@as(*u8, block + block.size) != @as(*u8, block.next))
+            std.debug.print("ERROR: block size does not touch the next block\n", .{});
+
+        if (block.next.?.prev != block)
+            std.debug.print("ERROR: next block doesn't have proper back link\n", .{});
+
+        if (block.user == null and block.next.?.user == null)
+            std.debug.print("ERROR: two consecutive free blocks\n", .{});
+    }
+    // Z_FileDumpHeap
+    //todo
+
+    // Z_CheckHeap
+    pub fn checkHeap(self: *Self) void {
+        _ = self;
+        var block = mainZone.blockList.next;
+        while (block.next) : (block = block.next) {
+            if (block.next == &mainZone.blockList)
+                break; // all blocks have been hit
+
+            if (@as(*u8, block + block.size) != @as(*u8, block.next))
+                std.debug.print("ERROR: block size does not touch the next block\n", .{});
+
+            if (block.next.?.prev != block)
+                std.debug.print("ERROR: next block doesn't have proper back link\n", .{});
+
+            if (block.user == null and block.next.?.user == null)
+                std.debug.print("ERROR: two consecutive free blocks\n", .{});
+        }
+    }
+
+    // Z_ChangeTag
+    pub fn changeTag2(self: *Self, ptr: *void, tag: int) void {
+        _ = self;
+        var block: *MemoryBlock = @as(*MemoryBlock, @as(*u8, ptr - @sizeOf(MemoryBlock)));
+        if (block.id != ZONEID)
+            std.debug.print("Z_ChangeTag: freed a pointer without ZONEID\n", .{});
+
+        if (tag >= PURGELEVEL and @as(u8, block.user) < 0x100)
+            std.debug.print("Z_ChangeTag: an owner is required for purgable blocks\n", .{});
+
+        block.tag = tag;
+    }
+
+    pub fn freeMemory() int {
+        var block: *MemoryBlock = mainZone.blockList.next;
+        var freeSize: int = 0;
+        while (block != &mainZone.blockList) : (block = block.next) {
+            if (block.user == null or block.tag >= PURGELEVEL)
+                freeSize += block.size;
+        }
+        return freeSize;
+    }
 };
+
+test "zone" {
+    const z = MemoryZone.init();
+    _ = z;
+}
